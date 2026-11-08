@@ -1,0 +1,173 @@
+// =====================================================================
+// ingressos.proto  -  O "CONTRATO" DA NOSSA API
+// =====================================================================
+// Este arquivo NAO e codigo Python. Ele e escrito na linguagem do
+// Protocol Buffers (Protobuf) e descreve duas coisas:
+//   1) quais funcoes o servidor oferece (o "service" la embaixo);
+//   2) quais dados entram e saem de cada funcao (as "message").
+//
+// Por que um contrato separado? Porque cliente e servidor podem estar em
+// maquinas diferentes (o seu Windows e um Linux do laboratorio) e ate em
+// linguagens diferentes. Os dois so precisam concordar com ESTE arquivo.
+//
+// A partir dele, o comando grpc_tools.protoc gera automaticamente:
+//   - ingressos_pb2.py      -> as classes das mensagens (Evento, Ingresso...)
+//   - ingressos_pb2_grpc.py -> os STUBS (o "dublê" do cliente e o esqueleto
+//                              do servidor), exatamente o stub dos slides de RPC.
+// =====================================================================
+
+// Versao 3 da sintaxe do Protobuf (a atual).
+syntax = "proto3";
+
+// "Sobrenome" das nossas definicoes. Aparece no caminho da chamada na
+// rede, por exemplo: /ingressos.VendaIngressos/ComprarIngresso
+package ingressos;
+
+// ---------------------------------------------------------------------
+// O SERVICO: a lista de funcoes remotas (procedimentos) do servidor.
+// Cada "rpc" diz: NomeDaFuncao (mensagem de entrada) returns (mensagem de saida)
+// No gRPC as funcoes sempre recebem UMA mensagem e devolvem UMA mensagem,
+// por isso agrupamos os parametros dentro de mensagens "Pedido...".
+// ---------------------------------------------------------------------
+service VendaIngressos {
+  // --- Funcoes principais (no estilo das sugestoes do professor) ---
+  rpc ListarEventos (Vazio) returns (ListaEventos);
+  rpc ConsultarAssentos (PedidoEvento) returns (MapaAssentos);
+  rpc ComprarIngresso (PedidoCompra) returns (RespostaIngresso);
+  rpc CancelarCompra (PedidoCancelamento) returns (Resposta);
+  rpc ConsultarIngressosUsuario (PedidoUsuario) returns (ListaIngressos);
+  rpc ConsultarIngresso (PedidoIngresso) returns (RespostaIngresso);
+
+  // --- Funcoes extras ---
+  rpc CriarEvento (PedidoCriarEvento) returns (RespostaEvento);
+  rpc TransferirIngresso (PedidoTransferencia) returns (Resposta);
+  rpc ValidarEntrada (PedidoIngresso) returns (RespostaIngresso);
+  rpc RelatorioVendas (PedidoEvento) returns (Relatorio);
+}
+
+// ---------------------------------------------------------------------
+// AS MENSAGENS: os "formularios" que viajam pela rede.
+// Cada campo tem: tipo, nome e um NUMERO (= 1, = 2...).
+// O numero e o que realmente vai na rede (e nao o nome do campo!),
+// por isso o Protobuf e tao compacto. Nunca reaproveite um numero.
+// ---------------------------------------------------------------------
+
+// Mensagem vazia: usada quando a funcao nao precisa de parametros.
+message Vazio {}
+
+// Resposta generica: deu certo? e uma frase explicando.
+// Seguimos o enunciado: "Retorno: Sucesso ou mensagem de erro".
+message Resposta {
+  bool sucesso = 1;
+  string mensagem = 2;
+}
+
+// Um evento (show, peca, palestra...).
+message Evento {
+  int32 id = 1;
+  string nome = 2;
+  string data = 3;             // formato "AAAA-MM-DD HH:MM"
+  string local = 4;
+  int32 assentos_livres = 5;
+  int32 total_assentos = 6;
+}
+
+message ListaEventos {
+  bool sucesso = 1;
+  string mensagem = 2;
+  repeated Evento eventos = 3; // "repeated" = lista
+}
+
+message PedidoEvento {
+  int32 id_evento = 1;
+}
+
+// Um assento do mapa, por exemplo "B4", e se ja foi vendido.
+message Assento {
+  string codigo = 1;
+  bool vendido = 2;
+}
+
+message MapaAssentos {
+  bool sucesso = 1;
+  string mensagem = 2;
+  string nome_evento = 3;
+  int32 fileiras = 4;
+  int32 assentos_por_fileira = 5;
+  repeated Assento assentos = 6;
+}
+
+message PedidoCompra {
+  string usuario = 1;
+  int32 id_evento = 2;
+  string assento = 3;
+}
+
+// Um ingresso vendido.
+message Ingresso {
+  int32 id = 1;
+  string usuario = 2;
+  int32 id_evento = 3;
+  string nome_evento = 4;
+  string data_evento = 5;
+  string assento = 6;
+  string status = 7;           // "valido", "usado" ou "cancelado"
+  string comprado_em = 8;
+}
+
+message RespostaIngresso {
+  bool sucesso = 1;
+  string mensagem = 2;
+  Ingresso ingresso = 3;       // mensagem dentro de mensagem e permitido
+}
+
+message PedidoCancelamento {
+  string usuario = 1;
+  int32 id_ingresso = 2;
+}
+
+message PedidoUsuario {
+  string usuario = 1;
+}
+
+message ListaIngressos {
+  bool sucesso = 1;
+  string mensagem = 2;
+  repeated Ingresso ingressos = 3;
+}
+
+message PedidoIngresso {
+  int32 id_ingresso = 1;
+}
+
+message PedidoCriarEvento {
+  string nome = 1;
+  string data = 2;             // "AAAA-MM-DD HH:MM"
+  string local = 3;
+  int32 fileiras = 4;          // 1 a 26 (A ate Z)
+  int32 assentos_por_fileira = 5;
+}
+
+message RespostaEvento {
+  bool sucesso = 1;
+  string mensagem = 2;
+  Evento evento = 3;
+}
+
+message PedidoTransferencia {
+  string usuario_origem = 1;
+  string usuario_destino = 2;
+  int32 id_ingresso = 3;
+}
+
+message Relatorio {
+  bool sucesso = 1;
+  string mensagem = 2;
+  string nome_evento = 3;
+  int32 total_assentos = 4;
+  int32 vendidos = 5;          // ingressos validos + usados
+  int32 livres = 6;
+  float ocupacao = 7;          // porcentagem de 0 a 100
+  int32 usados = 8;            // quantos ja entraram (check-in)
+  int32 cancelados = 9;
+}
