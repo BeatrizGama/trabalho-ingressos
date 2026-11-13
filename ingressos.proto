@@ -1,16 +1,7 @@
 // =====================================================================
 // ingressos.proto  -  O "CONTRATO" DA NOSSA API
 // =====================================================================
-// Este arquivo NAO e codigo Python. Ele e escrito na linguagem do
-// Protocol Buffers (Protobuf) e descreve duas coisas:
-//   1) quais funcoes o servidor oferece (o "service" la embaixo);
-//   2) quais dados entram e saem de cada funcao (as "message").
-//
-// Por que um contrato separado? Porque cliente e servidor podem estar em
-// maquinas diferentes (o seu Windows e um Linux do laboratorio) e ate em
-// linguagens diferentes. Os dois so precisam concordar com ESTE arquivo.
-//
-// A partir dele, o comando grpc_tools.protoc gera automaticamente:
+// O comando grpc_tools.protoc gera automaticamente:
 //   - ingressos_pb2.py      -> as classes das mensagens (Evento, Ingresso...)
 //   - ingressos_pb2_grpc.py -> os STUBS (o "dublê" do cliente e o esqueleto
 //                              do servidor), exatamente o stub dos slides de RPC.
@@ -30,7 +21,7 @@ package ingressos;
 // por isso agrupamos os parametros dentro de mensagens "Pedido...".
 // ---------------------------------------------------------------------
 service VendaIngressos {
-  // --- Funcoes principais (no estilo das sugestoes do professor) ---
+  // --- Funcoes principais ---
   rpc ListarEventos (Vazio) returns (ListaEventos);
   rpc ConsultarAssentos (PedidoEvento) returns (MapaAssentos);
   rpc ComprarIngresso (PedidoCompra) returns (RespostaIngresso);

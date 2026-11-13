@@ -102,7 +102,7 @@ class VendaIngressosServicer:
     """
 
     def ListarEventos(self, request, context):
-        """--- Funcoes principais (no estilo das sugestoes do professor) ---
+        """--- Funcoes principais ---
         """
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
         context.set_details('Method not implemented!')

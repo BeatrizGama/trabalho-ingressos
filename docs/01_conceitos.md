@@ -42,7 +42,7 @@ Você está no PC Linux do laboratório (`192.168.0.20`) e compra o assento B4. 
 
 **No cliente (Linux):**
 
-1. O `cliente.py` monta a mensagem `PedidoCompra(usuario="yago", id_evento=1, assento="B4")` e chama `stub.ComprarIngresso(pedido, timeout=5)`. Para o programador, acabou: parece uma função comum.
+1. O `cliente.py` monta a mensagem `PedidoCompra(usuario="beatriz", id_evento=1, assento="B4")` e chama `stub.ComprarIngresso(pedido, timeout=5)`. Para o programador, acabou: parece uma função comum.
 2. **Marshalling.** O stub entrega a mensagem ao Protobuf, que a transforma nestes 12 bytes:
 
    ```text
@@ -77,7 +77,7 @@ Tudo isso leva poucos milissegundos numa rede local.
 | Tarefa | Com socket puro (`socket_eco/`) | Com gRPC |
 | --- | --- | --- |
 | Abrir conexão, bind, listen, accept | Você escreve | Automático (`grpc.server`, `insecure_channel`) |
-| Definir as operações | Inventar um protocolo, ex.: `"COMPRAR;yago;1;B4"` | Declarar `rpc ComprarIngresso` no `.proto` |
+| Definir as operações | Inventar um protocolo, ex.: `"COMPRAR;beatriz;1;B4"` | Declarar `rpc ComprarIngresso` no `.proto` |
 | Converter dados em bytes | `.encode()` / `.decode()` e separar por `;` à mão | Protobuf, com tipos |
 | Mensagens grandes chegando em pedaços | Juntar os pedaços você mesmo | Automático |
 | Vários clientes ao mesmo tempo | Criar threads você mesmo | Pool de threads pronto |

@@ -227,7 +227,7 @@ python3 -m pip install --user --no-index --find-links pacotes_linux grpcio grpci
 | `[SYN]`, `[SYN, ACK]`, `[ACK]` | O aperto de mão do TCP abrindo a conexão |
 | Portas `53422 → 50051` | Porta efêmera do cliente → porta do servidor |
 | `HEADERS` com `:path /ingressos.VendaIngressos/ComprarIngresso` | A chamada RPC: qual função está sendo chamada |
-| `DATA` / `GRPC Message` com `yago` e `B4` legíveis | A mensagem Protobuf. É legível porque o canal é **sem TLS** (gancho para a aula de segurança) |
+| `DATA` / `GRPC Message` com `beatriz` e `B4` legíveis | A mensagem Protobuf. É legível porque o canal é **sem TLS** (gancho para a aula de segurança) |
 | `[ACK]` depois de cada envio | O TCP confirmando o recebimento (por isso é confiável) |
 | `[FIN]` | Fechamento da conexão ao sair do cliente |
 
@@ -248,7 +248,7 @@ git commit -m "Sistema de venda de ingressos com gRPC"
 Crie um repositório vazio no GitHub (botão **New**) e siga os comandos que ele mostra, que são parecidos com estes:
 
 ```bash
-git remote add origin https://github.com/yagowelsing/ingressos-grpc.git
+git remote add origin https://github.com/BeatrizGama/trabalho-ingressos.git
 git branch -M main
 git push -u origin main
 ```

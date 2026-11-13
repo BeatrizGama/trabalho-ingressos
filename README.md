@@ -78,7 +78,7 @@ No gRPC os nomes das funções seguem o padrão `CamelCase`. A tabela mostra o n
 ### Pelo menu do cliente
 
 ```text
-Seu nome de usuário: yago
+Seu nome de usuário: beatriz
 
 Opção: 1
   [1] Show de Rock Universitário | 2026-12-05 20:00 | Auditório Central | 40/40 livres
@@ -112,7 +112,7 @@ import grpc, ingressos_pb2, ingressos_pb2_grpc
 canal = grpc.insecure_channel("192.168.0.15:50051")      # IP e porta do servidor
 stub = ingressos_pb2_grpc.VendaIngressosStub(canal)        # o "dublê" do servidor
 
-pedido = ingressos_pb2.PedidoCompra(usuario="yago", id_evento=1, assento="B4")
+pedido = ingressos_pb2.PedidoCompra(usuario="beatriz", id_evento=1, assento="B4")
 resposta = stub.ComprarIngresso(pedido, timeout=5)         # parece local, roda no servidor
 print(resposta.sucesso, resposta.mensagem)                 # True  Compra realizada! Ingresso nº 1
 ```
@@ -164,4 +164,4 @@ MESMO assento! (condição de corrida)      assento. A trava funcionou.
 
 ---
 
-**Autor:** Yago Samara · UFRRJ · 2026
+**Autor:** Beatriz Gama · UFRRJ · 2026

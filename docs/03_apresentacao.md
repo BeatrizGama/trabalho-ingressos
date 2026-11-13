@@ -35,7 +35,7 @@ Deixe tudo aberto **antes** de começar: servidor no notebook, cliente no PC Lin
 2. **Cliente no Linux:** listar eventos (1), ver mapa do evento 1 (2), comprar o B4 (3). No terminal do servidor aparece a chamada com o IP do PC Linux.
 3. **Erro de negócio:** tentar comprar o B4 de novo → "Assento já vendido". Tentar o evento 4 → "Evento já aconteceu".
 4. **Extras rápidos:** transferir o ingresso para outra pessoa (8) e validar na portaria (9) duas vezes → "Ingresso já usado".
-5. **Wireshark:** pausar a captura e mostrar o handshake, o `:path` com o nome da função e o "yago" / "B4" legíveis nos bytes.
+5. **Wireshark:** pausar a captura e mostrar o handshake, o `:path` com o nome da função e o "beatriz" / "B4" legíveis nos bytes.
 6. **Concorrência:** reiniciar o servidor com `--sem-trava`, rodar `teste_concorrencia.py` → 10 aprovadas. Reiniciar normal, rodar de novo → 1 aprovada.
 7. **Falha:** desligar o servidor (`Ctrl + C`) e tentar uma opção no cliente → mensagem de servidor indisponível.
 
