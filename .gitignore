@@ -4,3 +4,4 @@ __pycache__/
 dados.json
 pacotes_linux/
 .venv/
+docs/

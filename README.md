@@ -21,13 +21,10 @@ O destaque do projeto é o **controle de concorrência**: quando várias pessoas
 | `teste_concorrencia.py` | 10 clientes tentando comprar o mesmo assento ao mesmo tempo |
 | `socket_eco/` | Exemplo com socket TCP "puro", para comparar com o que o gRPC faz por nós |
 | `dados.json` | Criado pelo servidor na primeira execução; guarda eventos e ingressos |
-| `docs/` | Material de estudo: conceitos, instalação e roteiro da apresentação |
 
 ---
 
 ## Como executar (resumo)
-
-O passo a passo completo, inclusive Windows, WSL, laboratório Linux, firewall e Wireshark, está em [docs/02_instalacao_e_execucao.md](docs/02_instalacao_e_execucao.md).
 
 ```bash
 pip install -r requirements.txt
